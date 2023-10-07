@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento de Consulta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .cabecalho {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .logo {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .titulo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    input[type="text"],
+    select,
+    input[type="date"],
+    input[type="time"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #consultas-container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #consultas-container h3 {
+      text-align: center;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    ul li {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="cabecalho">
+    <img class="logo" src="cruz-preta.png" alt="Logo da Cruz Preta">
+    <span class="titulo">SP MEDICAL GROUP</span>
+  </div>
+
+  <div class="container">
+    <h2>Agendar Consulta Médica</h2>
+    <form id="consulta-form">
+      <label for="name">Nome do Paciente:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="date">Data da Consulta:</label>
+      <input type="date" id="date" name="date" required>
+
+      <label for="time">Hora da Consulta:</label>
+      <input type="time" id="time" name="time" required>
+
+      <label for="doctor">Escolha o Médico:</label>
+      <select id="doctor" name="doctor" required>
+        <option value="">Selecione um médico</option>
+        <option value="Dr. João da Silva">Dr. João da Silva</option>
+        <option value="Dra. Maria dos Santos">Dra. Maria dos Santos</option>
+        <option value="Dr. José Carlos">Dr. José Carlos</option>
+      </select>
+
+      <button type="submit">Agendar</button>
+    </form>
+  </div>
+
+  <div id="consultas-container">
+    <h3>Consultas Agendadas</h3>
+    <ul id="consultas-list">
+      <!-- As consultas agendadas serão exibidas aqui -->
+    </ul>
+  </div>
+
+  <script>
+    const consultas = [];
+    const consultaForm = document.getElementById('consulta-form');
+    const consultasList = document.getElementById('consultas-list');
+
+    consultaForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const doctor = document.getElementById('doctor').value;
+
+      const consulta = {
+        nome: name,
+        data: date,
+        horario: time,
+        medico: doctor,
+      };
+
+      consultas.push(consulta);
+      limparCampos();
+      exibirConsultas();
+    });
+
+    function limparCampos() {
+      document.getElementById('name').value = '';
+      document.getElementById('date').value = '';
+      document.getElementById('time').value = '';
+      document.getElementById('doctor').value = '';
+    }
+
+    function exibirConsultas() {
+      consultasList.innerHTML = '';
+      consultas.forEach((consulta, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <strong>Consulta ${index + 1}:</strong>
+          <p><strong>Nome:</strong> ${consulta.nome}</p>
+          <p><strong>Data:</strong> ${consulta.data}</p>
+          <p><strong>Hora:</strong> ${consulta.horario}</p>
+          <p><strong>Médico:</strong> ${consulta.medico}</p>
+        `;
+        consultasList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
